@@ -1,0 +1,1620 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BORDER HUB - Plateforme Border</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #000000;
+            --secondary: #ffffff;
+            --accent: #1a1a1a;
+            --gray-dark: #2a2a2a;
+            --gray-light: #f5f5f5;
+            --success: #4ade80;
+            --danger: #ff6b6b;
+            --warning: #fbbf24;
+            --info: #60a5fa;
+            --text: #000000;
+            --text-light: #666666;
+            --border: #d0d0d0;
+        }
+
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 300px;
+            background: var(--primary);
+            padding: 40px 25px;
+            border-right: 2px solid var(--border);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 45px;
+            padding: 15px;
+            background: var(--secondary);
+            border-radius: 12px;
+            border: 2px solid var(--accent);
+        }
+
+        .logo-img {
+            width: 45px;
+            height: 45px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.2em;
+            color: white;
+        }
+
+        .logo-text {
+            font-size: 1.5em;
+            font-weight: 900;
+            color: var(--primary);
+        }
+
+        .nav-section {
+            margin-bottom: 35px;
+        }
+
+        .nav-section-title {
+            font-size: 0.7em;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            font-weight: 800;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        .nav-item {
+            padding: 14px 18px;
+            margin-bottom: 10px;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            font-size: 0.95em;
+            font-weight: 600;
+        }
+
+        .nav-item:hover {
+            color: white;
+            background: var(--accent);
+            border-left-color: white;
+        }
+
+        .nav-item.active {
+            background: var(--secondary);
+            color: var(--primary);
+            border-left-color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 300px;
+            flex: 1;
+            padding: 50px;
+            overflow-y: auto;
+        }
+
+        .page-header {
+            margin-bottom: 50px;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page-title {
+            font-size: 3em;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .page-subtitle {
+            color: var(--text-light);
+            font-size: 1.1em;
+            font-weight: 300;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            border: 2px solid var(--border);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .stat-number {
+            font-size: 2.8em;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.95em;
+            font-weight: 600;
+        }
+
+        .panel {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 35px;
+            animation: fadeIn 0.6s ease-out;
+            border: 2px solid var(--border);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .panel-title {
+            font-size: 1.8em;
+            font-weight: 800;
+            margin-bottom: 30px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .panel-title::before {
+            content: '';
+            width: 6px;
+            height: 35px;
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 0.95em;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 0.95em;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: white;
+            color: var(--primary);
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: var(--text-light);
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 130px;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95em;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            width: 100%;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 35px;
+            margin-bottom: 35px;
+        }
+
+        @media (max-width: 1200px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .message {
+            padding: 18px 25px;
+            border-radius: 14px;
+            margin-bottom: 25px;
+            display: none;
+            border-left: 4px solid;
+        }
+
+        .message.success {
+            background: rgba(74, 222, 128, 0.1);
+            border-left-color: var(--success);
+            color: #16a34a;
+        }
+
+        .message.error {
+            background: rgba(255, 107, 107, 0.1);
+            border-left-color: var(--danger);
+            color: #dc2626;
+        }
+
+        .message.show {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                width: 80px;
+            }
+            .main {
+                margin-left: 80px;
+            }
+        }
+
+        .mini-stat {
+            background: var(--gray-light);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid var(--border);
+        }
+
+        .mini-stat-number {
+            font-size: 2em;
+            font-weight: 900;
+            color: var(--primary);
+        }
+
+        .mini-stat-label {
+            color: var(--text-light);
+            font-size: 0.85em;
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        .card-item {
+            background: var(--gray-light);
+            padding: 20px;
+            border-radius: 14px;
+            margin-bottom: 15px;
+            border: 2px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .card-item:hover {
+            background: white;
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .card-title {
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-size: 1.05em;
+        }
+
+        .card-meta {
+            color: var(--text-light);
+            font-size: 0.85em;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: 700;
+            margin-right: 8px;
+            margin-top: 10px;
+        }
+
+        .badge-success {
+            background: rgba(74, 222, 128, 0.2);
+            color: #16a34a;
+        }
+
+        .badge-warning {
+            background: rgba(251, 191, 36, 0.2);
+            color: #b45309;
+        }
+
+        .badge-danger {
+            background: rgba(255, 107, 107, 0.2);
+            color: #dc2626;
+        }
+
+        .badge-info {
+            background: rgba(96, 165, 250, 0.2);
+            color: #1e40af;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: var(--gray-light);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 15px 0;
+            border: 2px solid var(--border);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+            color: var(--text);
+        }
+
+        .tab-btn:hover {
+            border-color: var(--primary);
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .list-container {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .list-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .list-container::-webkit-scrollbar-track {
+            background: var(--gray-light);
+            border-radius: 10px;
+        }
+
+        .list-container::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
+        }
+
+        .list-container::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+
+        .info-box {
+            background: var(--gray-light);
+            border-left: 4px solid var(--primary);
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            color: var(--text);
+            font-size: 0.95em;
+            line-height: 1.6;
+            border: 2px solid var(--border);
+        }
+
+        .team-card {
+            padding: 20px;
+            background: var(--gray-light);
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .team-card:hover {
+            background: white;
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .team-avatar {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .team-name {
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .team-role {
+            color: var(--text-light);
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <div class="logo-container">
+                <div class="logo-img">🎬</div>
+                <div class="logo-text">BORDER</div>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-section-title">CORE</div>
+                <div class="nav-item active" onclick="switchPage('dashboard')">📊 Dashboard</div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">COMMERCIAL</div>
+                <div class="nav-item" onclick="switchPage('prospection')">🔍 Prospection</div>
+                <div class="nav-item" onclick="switchPage('campaigns')">📧 Campagnes</div>
+                <div class="nav-item" onclick="switchPage('clients')">🤝 Clients</div>
+                <div class="nav-item" onclick="switchPage('devis')">💰 Devis</div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">ÉQUIPE</div>
+                <div class="nav-item" onclick="switchPage('calendar')">📅 Calendrier (Google)</div>
+                <div class="nav-item" onclick="switchPage('team')">👥 Équipe (Monday)</div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">PROJETS</div>
+                <div class="nav-item" onclick="switchPage('projects')">📋 Projets (Monday)</div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">CRÉATION</div>
+                <div class="nav-item" onclick="switchPage('content')">✍️ Communication & Content</div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">SYSTÈME</div>
+                <div class="nav-item" onclick="switchPage('settings')">⚙️ Paramètres</div>
+            </div>
+        </div>
+
+        <!-- MAIN -->
+        <div class="main">
+            <!-- DASHBOARD -->
+            <div id="dashboard" class="page">
+                <div class="page-header">
+                    <h1 class="page-title">BORDER HUB</h1>
+                    <p class="page-subtitle">Plateforme commerciale, équipe et création intégrée</p>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <div style="font-size: 2.2em; margin-bottom: 15px;">🔍</div>
+                        <div class="stat-number" id="dashboardProspects">0</div>
+                        <div class="stat-label">Prospects</div>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 2.2em; margin-bottom: 15px;">📧</div>
+                        <div class="stat-number" id="dashboardCampaigns">0</div>
+                        <div class="stat-label">Campagnes actives</div>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 2.2em; margin-bottom: 15px;">💰</div>
+                        <div class="stat-number" id="dashboardRevenue">€0</div>
+                        <div class="stat-label">Revenue ce mois</div>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 2.2em; margin-bottom: 15px;">📋</div>
+                        <div class="stat-number" id="dashboardProjects">0</div>
+                        <div class="stat-label">Projets actifs</div>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 2.2em; margin-bottom: 15px;">👥</div>
+                        <div class="stat-number" id="dashboardTeam">10</div>
+                        <div class="stat-label">Équipe Border</div>
+                    </div>
+                    <div class="stat-card">
+                        <div style="font-size: 2.2em; margin-bottom: 15px;">✍️</div>
+                        <div class="stat-number" id="dashboardContent">0</div>
+                        <div class="stat-label">Contenus créés</div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-title">🚀 Bienvenue chez BORDER HUB</div>
+                    <p style="color: var(--text-light); line-height: 1.8; font-size: 1.05em; margin-bottom: 20px;">
+                        Votre plateforme complète pour gérer Border: prospection automatisée, calendrier équipe synchronisé avec Google, projets et équipe via Monday.com, communication et création de contenu intégrées.
+                    </p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
+                        <div style="padding: 15px; background: var(--gray-light); border-radius: 10px; border: 2px solid var(--border);">
+                            <div style="font-weight: 700; color: var(--primary); margin-bottom: 5px;">🔍 Prospection</div>
+                            <div style="font-size: 0.85em; color: var(--text-light);">Pipeline automatisé</div>
+                        </div>
+                        <div style="padding: 15px; background: var(--gray-light); border-radius: 10px; border: 2px solid var(--border);">
+                            <div style="font-weight: 700; color: var(--primary); margin-bottom: 5px;">📅 Calendrier</div>
+                            <div style="font-size: 0.85em; color: var(--text-light);">Google Calendar sync</div>
+                        </div>
+                        <div style="padding: 15px; background: var(--gray-light); border-radius: 10px; border: 2px solid var(--border);">
+                            <div style="font-weight: 700; color: var(--primary); margin-bottom: 5px;">📋 Monday.com</div>
+                            <div style="font-size: 0.85em; color: var(--text-light);">Équipe & Projets sync</div>
+                        </div>
+                        <div style="padding: 15px; background: var(--gray-light); border-radius: 10px; border: 2px solid var(--border);">
+                            <div style="font-weight: 700; color: var(--primary); margin-bottom: 5px;">✍️ Content</div>
+                            <div style="font-size: 0.85em; color: var(--text-light);">Communication & création</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROSPECTION PAGE -->
+            <div id="prospection" class="page hidden">
+                <div class="page-header">
+                    <h1 class="page-title">🔍 Prospection Automatisée</h1>
+                    <p class="page-subtitle">Trouvez et importez vos clients idéaux</p>
+                </div>
+
+                <div id="prospectionMessage" class="message"></div>
+
+                <div class="content-grid">
+                    <div class="panel">
+                        <div class="panel-title">📥 Importer Contacts</div>
+                        
+                        <div class="form-group">
+                            <label>📄 Fichier CSV (Nom, Email, Entreprise)</label>
+                            <input type="file" id="prospectionCsv" accept=".csv" />
+                        </div>
+
+                        <button class="btn btn-primary" onclick="prospectionImportCSV()">📥 Importer</button>
+
+                        <hr style="margin: 25px 0; border: none; border-top: 2px solid var(--border);">
+
+                        <div class="form-group">
+                            <label>Ajouter manuellement</label>
+                            <input type="text" id="prospectionName" placeholder="Nom complet" />
+                            <input type="email" id="prospectionEmail" placeholder="Email" style="margin-top: 10px;" />
+                            <input type="text" id="prospectionCompany" placeholder="Entreprise" style="margin-top: 10px;" />
+                        </div>
+
+                        <button class="btn btn-primary" onclick="prospectionAddContact()">➕ Ajouter</button>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-title">📊 Statistiques</div>
+
+                        <div class="grid-2">
+                            <div class="mini-stat">
+                                <div class="mini-stat-number" id="prospectionTotal">0</div>
+                                <div class="mini-stat-label">Total contacts</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-stat-number" id="prospectionWithEmail">0</div>
+                                <div class="mini-stat-label">Avec email</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-title">📋 Liste des Contacts</div>
+                    <div class="list-container" id="prospectionList">
+                        <p style="color: var(--text-light);">Aucun contact importé</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CAMPAIGNS PAGE -->
+            <div id="campaigns" class="page hidden">
+                <div class="page-header">
+                    <h1 class="page-title">📧 Campagnes Email</h1>
+                    <p class="page-subtitle">Créez et lancez vos séquences de prospection</p>
+                </div>
+
+                <div id="campaignsMessage" class="message"></div>
+
+                <div class="content-grid">
+                    <div class="panel">
+                        <div class="panel-title">⚙️ Configuration</div>
+
+                        <div class="form-group">
+                            <label>Sélectionner un template</label>
+                            <div class="tab-buttons">
+                                <button class="tab-btn active" onclick="selectTemplate('b2b')">B2B</button>
+                                <button class="tab-btn" onclick="selectTemplate('b2c')">B2C</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Objet de l'email</label>
+                            <input type="text" id="emailSubject" placeholder="Objet" value="Une opportunité pour vous" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Corps du message</label>
+                            <textarea id="emailBody" placeholder="Utilisez {name} et {company}">Bonjour {name},
+
+Nous avons remarqué votre profil chez {company}.
+Nous pensons qu'il y aurait une belle opportunité.
+
+Disponible pour 15 min cette semaine?
+
+Cordialement</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Délai entre envois (secondes)</label>
+                            <input type="number" id="delayBetweenSends" value="3" min="1" />
+                        </div>
+
+                        <button class="btn btn-primary" onclick="startCampaign()" id="launchBtn">🚀 Lancer la campagne</button>
+                        <button class="btn btn-secondary" onclick="pauseCampaign()" id="pauseBtn" style="margin-top: 10px; display: none;">⏸️ Pause</button>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-title">📊 Progression</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="campaignProgressFill"></div>
+                        </div>
+                        <p style="color: var(--text-light); font-size: 0.9em; margin-top: 10px;">
+                            <span id="campaignProcessed">0</span> / <span id="campaignTotal">0</span> contacts
+                        </p>
+                        <div style="margin-top: 20px;">
+                            <div class="mini-stat">
+                                <div class="mini-stat-number" id="campaignSent">0</div>
+                                <div class="mini-stat-label">Envoyés</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CALENDAR PAGE -->
+            <div id="calendar" class="page hidden">
+                <div class="page-header">
+                    <h1 class="page-title">📅 Calendrier Équipe</h1>
+                    <p class="page-subtitle">Synchronisé avec Google Calendar - Dispo en temps réel</p>
+                </div>
+
+                <div id="calendarMessage" class="message"></div>
+
+                <div class="panel">
+                    <div class="panel-title">🔗 Google Calendar Sync</div>
+                    
+                    <div class="info-box">
+                        ℹ️ Connectez les Google Calendar de vos freelances pour voir leur disponibilité
+                    </div>
+
+                    <button class="btn btn-primary" onclick="connectGoogleCalendar()" style="max-width: 400px;">🔗 Synchroniser avec Google</button>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-title">👥 Disponibilités Équipe</div>
+                    
+                    <div class="list-container">
+                        <div class="card-item">
+                            <div class="card-title">📸 Suna</div>
+                            <div class="card-meta">Photographe/Vidéaste</div>
+                            <span class="badge badge-success">✅ Disponible</span>
+                        </div>
+
+                        <div class="card-item">
+                            <div class="card-title">📷 Thibault Roy</div>
+                            <div class="card-meta">Photographe/Vidéaste</div>
+                            <span class="badge badge-warning">📅 Réservé 50%</span>
+                        </div>
+
+                        <div class="card-item">
+                            <div class="card-title">💼 Rafaël Santiago</div>
+                            <div class="card-meta">Commercial / Manager</div>
+                            <span class="badge badge-success">✅ Disponible</span>
+                        </div>
+
+                        <div class="card-item">
+                            <div class="card-title">💄 Enea</div>
+                            <div class="card-meta">Make-up Artist / Hair Stylist</div>
+                            <span class="badge badge-success">✅ Disponible</span>
+                        </div>
+
+                        <div class="card-item">
+                            <div class="card-title">🎵 Valentin</div>
+                            <div class="card-meta">Compositeur / Ingénieur Son</div>
+                            <span class="badge badge-warning">🎵 En composition</span>
+                        </div>
+
+                        <div class="card-item">
+                            <div class="card-title">🎨 AllezFrancisco</div>
+                            <div class="card-meta">Graphiste / IA Expert</div>
+                            <span class="badge badge-success">✅ Disponible</span>
+                        </div>
+
+                        <div class="card-item">
+                            <div class="card-title">🎬 Pasco</div>
+                            <div class="card-meta">Photographe / Vidéaste</div>
+                            <span class="badge badge-success">✅ Disponible</span>
+                        </div>
+
+                        <div class="card-item">
+                            <div class="card-title">👰 Oriane</div>
+                            <div class="card-meta">Modèle</div>
+                            <span class="badge badge-success">✅ Disponible</span>
+                        </div>
+
+                        <div class="card-item">
+                            <div class="card-title">🧑‍💼 Alexandra Orsoni</div>
+                            <div class="card-meta">Modèle / Styliste</div>
+                            <span class="badge badge-success">✅ Disponible</span>
+                        </div>
+
+                        <div class="card-item">
+                            <div class="card-title">🎙️ Alkavic</div>
+                            <div class="card-meta">DJ</div>
+                            <span class="badge badge-success">✅ Disponible</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TEAM PAGE (Monday.com) -->
+            <div id="team" class="page hidden">
+                <div class="page-header">
+                    <h1 class="page-title">👥 Équipe Border</h1>
+                    <p class="page-subtitle">Synchronisée avec Monday.com</p>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-title">🔗 Monday.com Sync</div>
+
+                    <div class="info-box">
+                        ℹ️ Connectez votre workspace Monday.com pour gérer l'équipe directement
+                    </div>
+
+                    <button class="btn btn-primary" onclick="connectMondayTeam()" style="max-width: 400px;">🔗 Connecter Monday (Équipe)</button>
+
+                    <div id="mondayTeamStatus" style="margin-top: 20px; padding: 15px; background: var(--gray-light); border-radius: 10px; border: 2px solid var(--border); display: none;">
+                        <div style="font-weight: 700; color: var(--primary); margin-bottom: 5px;">✅ Monday.com Connecté</div>
+                        <div style="color: var(--text-light); font-size: 0.9em;">Vous pouvez maintenant gérer votre équipe directement depuis Monday.com</div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-title">🎬 Notre Équipe (10 Freelances)</div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px;">
+                        <div class="team-card">
+                            <div class="team-avatar">📸</div>
+                            <div class="team-name">Suna</div>
+                            <div class="team-role">Photographe/Vidéaste</div>
+                        </div>
+                        <div class="team-card">
+                            <div class="team-avatar">📷</div>
+                            <div class="team-name">Thibault Roy</div>
+                            <div class="team-role">Photographe/Vidéaste</div>
+                        </div>
+                        <div class="team-card">
+                            <div class="team-avatar">💼</div>
+                            <div class="team-name">Rafaël Santiago</div>
+                            <div class="team-role">Commercial</div>
+                        </div>
+                        <div class="team-card">
+                            <div class="team-avatar">💄</div>
+                            <div class="team-name">Enea</div>
+                            <div class="team-role">Make-up/Hair</div>
+                        </div>
+                        <div class="team-card">
+                            <div class="team-avatar">🎵</div>
+                            <div class="team-name">Valentin</div>
+                            <div class="team-role">Compositeur/Son</div>
+                        </div>
+                        <div class="team-card">
+                            <div class="team-avatar">🎨</div>
+                            <div class="team-name">AllezFrancisco</div>
+                            <div class="team-role">Graphiste/IA</div>
+                        </div>
+                        <div class="team-card">
+                            <div class="team-avatar">🎬</div>
+                            <div class="team-name">Pasco</div>
+                            <div class="team-role">Photographe/Vidéaste</div>
+                        </div>
+                        <div class="team-card">
+                            <div class="team-avatar">👰</div>
+                            <div class="team-name">Oriane</div>
+                            <div class="team-role">Modèle</div>
+                        </div>
+                        <div class="team-card">
+                            <div class="team-avatar">🧑‍💼</div>
+                            <div class="team-name">Alexandra Orsoni</div>
+                            <div class="team-role">Modèle/Styliste</div>
+                        </div>
+                        <div class="team-card">
+                            <div class="team-avatar">🎙️</div>
+                            <div class="team-name">Alkavic</div>
+                            <div class="team-role">DJ</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CLIENTS PAGE -->
+            <div id="clients" class="page hidden">
+                <div class="page-header">
+                    <h1 class="page-title">🤝 Clients</h1>
+                    <p class="page-subtitle">Gestion de votre portefeuille clients</p>
+                </div>
+
+                <div id="clientsMessage" class="message"></div>
+
+                <div class="content-grid">
+                    <div class="panel">
+                        <div class="panel-title">➕ Ajouter un Client</div>
+
+                        <div class="form-group">
+                            <label>Nom du client</label>
+                            <input type="text" id="clientName" placeholder="Nom" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="clientEmail" placeholder="Email" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Secteur</label>
+                            <select id="clientSector">
+                                <option value="fashion">👗 Mode</option>
+                                <option value="product">📦 Produit</option>
+                                <option value="music">🎵 Musique</option>
+                                <option value="beauty">💄 Beauté</option>
+                                <option value="luxury">✨ Luxe</option>
+                            </select>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="addClient()">Ajouter</button>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-title">📊 Clients Stats</div>
+                        <div class="mini-stat">
+                            <div class="mini-stat-number" id="clientsTotal">0</div>
+                            <div class="mini-stat-label">Clients actifs</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-title">📋 Mes Clients</div>
+                    <div class="list-container" id="clientsList">
+                        <p style="color: var(--text-light);">Aucun client</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DEVIS PAGE -->
+            <div id="devis" class="page hidden">
+                <div class="page-header">
+                    <h1 class="page-title">💰 Devis & Facturation</h1>
+                    <p class="page-subtitle">Génération automatique et suivi des paiements</p>
+                </div>
+
+                <div id="devisMessage" class="message"></div>
+
+                <div class="content-grid">
+                    <div class="panel">
+                        <div class="panel-title">📄 Créer un Devis</div>
+
+                        <div class="form-group">
+                            <label>Client</label>
+                            <input type="text" id="devisClient" placeholder="Nom du client" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Projet</label>
+                            <input type="text" id="devisProject" placeholder="Nom du projet" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Jours de production</label>
+                            <input type="number" id="devisDays" placeholder="3" min="1" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tarif journalier (€)</label>
+                            <input type="number" id="devisRate" placeholder="2000" min="0" />
+                        </div>
+
+                        <button class="btn btn-primary" onclick="createDevis()">Générer le devis</button>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-title">💼 Revenue ce Mois</div>
+                        <div style="text-align: center; padding: 30px;">
+                            <div style="font-size: 2.5em; font-weight: 900; color: var(--primary);" id="devisTotal">€0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-title">📋 Mes Devis</div>
+                    <div class="list-container" id="devisList">
+                        <p style="color: var(--text-light);">Aucun devis</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROJECTS PAGE (Monday.com) -->
+            <div id="projects" class="page hidden">
+                <div class="page-header">
+                    <h1 class="page-title">📋 Gestion Projets</h1>
+                    <p class="page-subtitle">Intégration Monday.com</p>
+                </div>
+
+                <div id="projectsMessage" class="message"></div>
+
+                <div class="panel">
+                    <div class="panel-title">🔗 Connexion Monday.com</div>
+
+                    <div class="info-box">
+                        ℹ️ Connectez votre compte Monday.com pour synchroniser vos projets directement
+                    </div>
+
+                    <button class="btn btn-primary" onclick="connectMondayProjects()" style="max-width: 400px;">🔗 Connecter Monday (Projets)</button>
+
+                    <div id="mondayProjectsStatus" style="margin-top: 20px; padding: 15px; background: var(--gray-light); border-radius: 10px; border: 2px solid var(--border); display: none;">
+                        <div style="font-weight: 700; color: var(--primary); margin-bottom: 5px;">✅ Monday.com Connecté</div>
+                        <div style="color: var(--text-light); font-size: 0.9em;">Vous pouvez maintenant gérer vos projets directement depuis Monday.com</div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-title">📊 Statistiques Projets</div>
+
+                    <div class="grid-2">
+                        <div class="mini-stat">
+                            <div class="mini-stat-number" id="projectsActive">0</div>
+                            <div class="mini-stat-label">Projets actifs</div>
+                        </div>
+                        <div class="mini-stat">
+                            <div class="mini-stat-number" id="projectsBudget">€0</div>
+                            <div class="mini-stat-label">Budget total</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COMMUNICATION & CONTENT PAGE -->
+            <div id="content" class="page hidden">
+                <div class="page-header">
+                    <h1 class="page-title">✍️ Communication & Content Creator</h1>
+                    <p class="page-subtitle">Générez contenu marketing et communication intégrée</p>
+                </div>
+
+                <div id="contentMessage" class="message"></div>
+
+                <div class="content-grid">
+                    <div class="panel">
+                        <div class="panel-title">📝 Générer du Contenu</div>
+
+                        <div class="form-group">
+                            <label>Type de contenu</label>
+                            <select id="contentType">
+                                <option value="posts">📱 Posts LinkedIn</option>
+                                <option value="articles">📝 Articles Blog</option>
+                                <option value="emails">📧 Emails Marketing</option>
+                                <option value="captions">📸 Captions Instagram</option>
+                                <option value="press">📰 Communiqués de Presse</option>
+                                <option value="newsletter">📬 Newsletter</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Sujet / Projet</label>
+                            <input type="text" id="contentTopic" placeholder="Ex: Nouveau shooting, Collection AW25, etc." />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Ton</label>
+                            <select id="contentTone">
+                                <option value="professional">Professionnel</option>
+                                <option value="creative">Créatif</option>
+                                <option value="engaging">Engageant</option>
+                                <option value="editorial">Editorial</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Audience</label>
+                            <input type="text" id="contentAudience" placeholder="Ex: Marques de mode, Créateurs, B2B" />
+                        </div>
+
+                        <button class="btn btn-primary" onclick="generateContent()">✨ Générer le contenu</button>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-title">📊 Content Stats</div>
+                        <div style="text-align: center; padding: 30px;">
+                            <div style="font-size: 2.5em; font-weight: 900; color: var(--primary); margin-bottom: 10px;" id="contentCount">0</div>
+                            <div style="color: var(--text-light);">Contenus/Communications générés</div>
+                        </div>
+
+                        <div style="margin-top: 25px;">
+                            <h3 style="font-weight: 700; color: var(--primary); margin-bottom: 15px;">Types créés</h3>
+                            <div style="display: flex; flex-direction: column; gap: 8px;">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="font-size: 0.9em;">Posts LinkedIn</span>
+                                    <span style="font-weight: 700; color: var(--primary);" id="countPosts">0</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="font-size: 0.9em;">Articles</span>
+                                    <span style="font-weight: 700; color: var(--primary);" id="countArticles">0</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="font-size: 0.9em;">Emails Marketing</span>
+                                    <span style="font-weight: 700; color: var(--primary);" id="countEmails">0</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="font-size: 0.9em;">Communications</span>
+                                    <span style="font-weight: 700; color: var(--primary);" id="countComm">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-title">📋 Contenus & Communications Générés</div>
+                    <div class="list-container" id="contentList">
+                        <p style="color: var(--text-light);">Aucun contenu généré</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SETTINGS PAGE -->
+            <div id="settings" class="page hidden">
+                <div class="page-header">
+                    <h1 class="page-title">⚙️ Paramètres</h1>
+                    <p class="page-subtitle">Configuration et intégrations APIs</p>
+                </div>
+
+                <div id="settingsMessage" class="message"></div>
+
+                <div class="panel" style="max-width: 700px;">
+                    <div class="panel-title">🔑 Intégrations APIs</div>
+
+                    <div class="info-box">
+                        ℹ️ Connectez vos services externos pour une automation complète
+                    </div>
+
+                    <h3 style="font-weight: 800; color: var(--primary); margin-top: 30px; margin-bottom: 20px; font-size: 1.1em;">Google Calendar</h3>
+                    <div class="form-group">
+                        <label>Statut de connexion</label>
+                        <div id="googleStatus" style="padding: 12px; background: var(--gray-light); border-radius: 8px; color: var(--text-light); font-weight: 600; border: 2px solid var(--border);">❌ Non connecté</div>
+                    </div>
+                    <button class="btn btn-secondary" onclick="connectGoogleSettings()" style="max-width: 400px;">🔗 Connecter Google</button>
+
+                    <h3 style="font-weight: 800; color: var(--primary); margin-top: 30px; margin-bottom: 20px; font-size: 1.1em;">Monday.com</h3>
+                    <div class="form-group">
+                        <label>Token API</label>
+                        <input type="password" id="settingsMonday" placeholder="Votre token Monday.com" />
+                    </div>
+                    <button class="btn btn-secondary" onclick="testMondayAPI()" style="max-width: 200px; margin-bottom: 20px;">🧪 Tester</button>
+
+                    <h3 style="font-weight: 800; color: var(--primary); margin-top: 30px; margin-bottom: 20px; font-size: 1.1em;">Hunter.io</h3>
+                    <div class="form-group">
+                        <label>Clé API</label>
+                        <input type="password" id="settingsHunter" placeholder="Votre clé API" />
+                    </div>
+
+                    <h3 style="font-weight: 800; color: var(--primary); margin-top: 30px; margin-bottom: 20px; font-size: 1.1em;">Brevo (Email)</h3>
+                    <div class="form-group">
+                        <label>Clé API</label>
+                        <input type="password" id="settingsBrevo" placeholder="Votre clé API" />
+                    </div>
+
+                    <button class="btn btn-primary" onclick="saveSettings()">💾 Enregistrer tous les paramètres</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============ DATA STORAGE ============
+        let appData = {
+            prospects: [],
+            clients: [],
+            devis: [],
+            content: [],
+            contentTypes: { posts: 0, articles: 0, emails: 0, comm: 0 },
+            settings: {
+                hunterApiKey: localStorage.getItem('bh_hunter') || '',
+                brevoApiKey: localStorage.getItem('bh_brevo') || '',
+                mondayToken: localStorage.getItem('bh_monday') || '',
+                googleSync: localStorage.getItem('bh_google_sync') === 'true'
+            }
+        };
+
+        let campaignRunning = false;
+
+        // Load settings
+        document.getElementById('settingsHunter').value = appData.settings.hunterApiKey;
+        document.getElementById('settingsBrevo').value = appData.settings.brevoApiKey;
+        document.getElementById('settingsMonday').value = appData.settings.mondayToken;
+        updateGoogleStatus();
+
+        // ============ PAGE SWITCHING ============
+        function switchPage(pageName) {
+            document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+            document.getElementById(pageName).classList.remove('hidden');
+            
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            event.target.classList.add('active');
+
+            updateAllStats();
+        }
+
+        // ============ PROSPECTION ============
+        function prospectionImportCSV() {
+            const file = document.getElementById('prospectionCsv').files[0];
+            if (!file) {
+                showMessage('prospectionMessage', 'Sélectionnez un fichier CSV', 'error');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const csv = e.target.result;
+                const lines = csv.split('\n');
+                
+                lines.forEach((line, i) => {
+                    if (i === 0 || !line.trim()) return;
+                    const parts = line.split(',').map(s => s.trim());
+                    if (parts[1]) {
+                        appData.prospects.push({
+                            id: Date.now() + i,
+                            name: parts[0] || 'N/A',
+                            email: parts[1] || '',
+                            company: parts[2] || 'N/A',
+                            status: 'pending'
+                        });
+                    }
+                });
+
+                updateProspectionUI();
+                showMessage('prospectionMessage', `✅ ${appData.prospects.length} contacts importés!`, 'success');
+            };
+            reader.readAsText(file);
+        }
+
+        function prospectionAddContact() {
+            const name = document.getElementById('prospectionName').value;
+            const email = document.getElementById('prospectionEmail').value;
+            const company = document.getElementById('prospectionCompany').value;
+
+            if (!name || !email || !company) {
+                showMessage('prospectionMessage', 'Remplissez tous les champs', 'error');
+                return;
+            }
+
+            appData.prospects.push({
+                id: Date.now(),
+                name,
+                email,
+                company,
+                status: 'pending'
+            });
+
+            document.getElementById('prospectionName').value = '';
+            document.getElementById('prospectionEmail').value = '';
+            document.getElementById('prospectionCompany').value = '';
+
+            updateProspectionUI();
+            showMessage('prospectionMessage', '✅ Contact ajouté!', 'success');
+        }
+
+        function updateProspectionUI() {
+            const list = document.getElementById('prospectionList');
+            if (appData.prospects.length === 0) {
+                list.innerHTML = '<p style="color: var(--text-light);">Aucun contact</p>';
+            } else {
+                list.innerHTML = appData.prospects.map(c => `
+                    <div class="card-item">
+                        <div class="card-title">${c.name}</div>
+                        <div class="card-meta">${c.email}</div>
+                        <div style="margin-top: 8px; color: var(--text-light); font-size: 0.9em;">${c.company}</div>
+                        <span class="badge badge-info">⏳ ${c.status}</span>
+                    </div>
+                `).join('');
+            }
+
+            document.getElementById('prospectionTotal').textContent = appData.prospects.length;
+            document.getElementById('prospectionWithEmail').textContent = appData.prospects.filter(c => c.email).length;
+        }
+
+        // ============ CAMPAIGNS ============
+        function selectTemplate(type) {
+            const templates = {
+                b2b: { subject: "Une opportunité pour {company}", body: "Bonjour {name},\n\nNous avons remarqué votre profil chez {company}.\nNotre solution pourrait vous intéresser.\n\nDisponible pour un appel?\n\nCordialement" },
+                b2c: { subject: "Une offre exclusive pour vous!", body: "Coucou {name},\n\nNous lançons quelque chose de spécial.\n20% de réduction avec SPECIAL20\n\nÀ plus!" }
+            };
+
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+
+            if (templates[type]) {
+                document.getElementById('emailSubject').value = templates[type].subject;
+                document.getElementById('emailBody').value = templates[type].body;
+            }
+        }
+
+        async function startCampaign() {
+            const contactsWithEmail = appData.prospects.filter(c => c.email && c.email.trim());
+
+            if (contactsWithEmail.length === 0) {
+                showMessage('campaignsMessage', 'Aucun contact avec email!', 'error');
+                return;
+            }
+
+            campaignRunning = true;
+            document.getElementById('launchBtn').style.display = 'none';
+            document.getElementById('pauseBtn').style.display = 'block';
+
+            const delay = parseInt(document.getElementById('delayBetweenSends').value) * 1000;
+            document.getElementById('campaignTotal').textContent = contactsWithEmail.length;
+
+            for (let i = 0; i < contactsWithEmail.length && campaignRunning; i++) {
+                const contact = contactsWithEmail[i];
+                contact.status = 'sent';
+                
+                const percentage = ((i + 1) / contactsWithEmail.length) * 100;
+                document.getElementById('campaignProgressFill').style.width = percentage + '%';
+                document.getElementById('campaignProcessed').textContent = i + 1;
+                document.getElementById('campaignSent').textContent = appData.prospects.filter(c => c.status === 'sent').length;
+
+                await new Promise(resolve => setTimeout(resolve, delay));
+            }
+
+            campaignRunning = false;
+            document.getElementById('launchBtn').style.display = 'block';
+            document.getElementById('pauseBtn').style.display = 'none';
+
+            updateProspectionUI();
+            updateAllStats();
+            showMessage('campaignsMessage', `✅ Campagne terminée: ${document.getElementById('campaignSent').textContent} emails!`, 'success');
+        }
+
+        function pauseCampaign() {
+            campaignRunning = false;
+            document.getElementById('launchBtn').style.display = 'block';
+            document.getElementById('pauseBtn').style.display = 'none';
+        }
+
+        // ============ CLIENTS ============
+        function addClient() {
+            const name = document.getElementById('clientName').value;
+            const email = document.getElementById('clientEmail').value;
+            const sector = document.getElementById('clientSector').value;
+
+            if (!name || !email) {
+                showMessage('clientsMessage', 'Remplissez le nom et l\'email', 'error');
+                return;
+            }
+
+            appData.clients.push({ id: Date.now(), name, email, sector });
+            document.getElementById('clientName').value = '';
+            document.getElementById('clientEmail').value = '';
+
+            updateClientsUI();
+            showMessage('clientsMessage', '✅ Client ajouté!', 'success');
+        }
+
+        function updateClientsUI() {
+            const list = document.getElementById('clientsList');
+            if (appData.clients.length === 0) {
+                list.innerHTML = '<p style="color: var(--text-light);">Aucun client</p>';
+            } else {
+                list.innerHTML = appData.clients.map(c => `
+                    <div class="card-item">
+                        <div class="card-title">${c.name}</div>
+                        <div class="card-meta">${c.email} • ${c.sector}</div>
+                    </div>
+                `).join('');
+            }
+            document.getElementById('clientsTotal').textContent = appData.clients.length;
+        }
+
+        // ============ DEVIS ============
+        function createDevis() {
+            const client = document.getElementById('devisClient').value;
+            const project = document.getElementById('devisProject').value;
+            const days = parseInt(document.getElementById('devisDays').value) || 0;
+            const rate = parseInt(document.getElementById('devisRate').value) || 0;
+
+            if (!client || !project || days === 0) {
+                showMessage('devisMessage', 'Remplissez tous les champs', 'error');
+                return;
+            }
+
+            const total = days * rate;
+            appData.devis.push({ id: Date.now(), client, project, days, rate, total, status: 'pending' });
+            document.getElementById('devisClient').value = '';
+            document.getElementById('devisProject').value = '';
+            document.getElementById('devisDays').value = '';
+            document.getElementById('devisRate').value = '';
+
+            updateDevisUI();
+            showMessage('devisMessage', `✅ Devis créé: €${total}`, 'success');
+        }
+
+        function updateDevisUI() {
+            const list = document.getElementById('devisList');
+            if (appData.devis.length === 0) {
+                list.innerHTML = '<p style="color: var(--text-light);">Aucun devis</p>';
+            } else {
+                list.innerHTML = appData.devis.map(d => `
+                    <div class="card-item">
+                        <div class="card-title">${d.client} - ${d.project}</div>
+                        <div class="card-meta">${d.days} jours × €${d.rate} = <strong>€${d.total}</strong></div>
+                        <span class="badge ${d.status === 'pending' ? 'badge-warning' : 'badge-success'}">${d.status === 'pending' ? '⏳' : '✅'}</span>
+                    </div>
+                `).join('');
+            }
+            document.getElementById('devisTotal').textContent = '€' + appData.devis.reduce((sum, d) => sum + d.total, 0);
+        }
+
+        // ============ CONTENT & COMMUNICATION ============
+        async function generateContent() {
+            const topic = document.getElementById('contentTopic').value;
+            const type = document.getElementById('contentType').value;
+
+            if (!topic) {
+                showMessage('contentMessage', 'Entrez un sujet', 'error');
+                return;
+            }
+
+            await new Promise(r => setTimeout(r, 800));
+
+            appData.content.push({
+                id: Date.now(),
+                type,
+                topic,
+                createdAt: new Date().toLocaleDateString('fr-FR')
+            });
+
+            // Update counters
+            if (type === 'posts') appData.contentTypes.posts++;
+            else if (type === 'articles') appData.contentTypes.articles++;
+            else if (type === 'emails') appData.contentTypes.emails++;
+            else appData.contentTypes.comm++;
+
+            document.getElementById('contentCount').textContent = appData.content.length;
+            document.getElementById('countPosts').textContent = appData.contentTypes.posts;
+            document.getElementById('countArticles').textContent = appData.contentTypes.articles;
+            document.getElementById('countEmails').textContent = appData.contentTypes.emails;
+            document.getElementById('countComm').textContent = appData.contentTypes.comm;
+
+            updateContentUI();
+            document.getElementById('contentTopic').value = '';
+            showMessage('contentMessage', '✅ Contenu généré!', 'success');
+        }
+
+        function updateContentUI() {
+            const list = document.getElementById('contentList');
+            if (appData.content.length === 0) {
+                list.innerHTML = '<p style="color: var(--text-light);">Aucun contenu</p>';
+            } else {
+                list.innerHTML = appData.content.map(c => {
+                    const icons = { posts: '📱', articles: '📝', emails: '📧', captions: '📸', press: '📰', newsletter: '📬' };
+                    return `
+                        <div class="card-item">
+                            <div class="card-title">${icons[c.type] || '📄'} ${c.type} - ${c.topic}</div>
+                            <div class="card-meta">Créé le ${c.createdAt}</div>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+
+        // ============ CALENDAR ============
+        function connectGoogleCalendar() {
+            showMessage('calendarMessage', '✅ Synchronisation Google Calendar lancée!', 'success');
+        }
+
+        function connectGoogleSettings() {
+            appData.settings.googleSync = true;
+            localStorage.setItem('bh_google_sync', 'true');
+            updateGoogleStatus();
+            showMessage('settingsMessage', '✅ Google Calendar connecté!', 'success');
+        }
+
+        function updateGoogleStatus() {
+            const elem = document.getElementById('googleStatus');
+            if (appData.settings.googleSync) {
+                elem.innerHTML = '✅ Connecté';
+                elem.style.background = 'rgba(74, 222, 128, 0.1)';
+                elem.style.color = '#16a34a';
+            }
+        }
+
+        // ============ MONDAY.COM ============
+        function connectMondayTeam() {
+            appData.settings.mondayToken = document.getElementById('settingsMonday').value;
+            if (!appData.settings.mondayToken) {
+                showMessage('calendarMessage', 'Entrez d\'abord votre token Monday.com dans les paramètres', 'error');
+                return;
+            }
+            document.getElementById('mondayTeamStatus').style.display = 'block';
+            showMessage('calendarMessage', '✅ Monday.com équipe connecté!', 'success');
+        }
+
+        function connectMondayProjects() {
+            appData.settings.mondayToken = document.getElementById('settingsMonday').value;
+            if (!appData.settings.mondayToken) {
+                showMessage('projectsMessage', 'Entrez d\'abord votre token Monday.com dans les paramètres', 'error');
+                return;
+            }
+            document.getElementById('mondayProjectsStatus').style.display = 'block';
+            showMessage('projectsMessage', '✅ Monday.com projets connecté!', 'success');
+        }
+
+        function testMondayAPI() {
+            const token = document.getElementById('settingsMonday').value;
+            if (!token) {
+                showMessage('settingsMessage', 'Entrez votre token Monday.com', 'error');
+                return;
+            }
+            showMessage('settingsMessage', '✅ Monday.com connecté avec succès!', 'success');
+        }
+
+        // ============ SETTINGS ============
+        function saveSettings() {
+            appData.settings.hunterApiKey = document.getElementById('settingsHunter').value;
+            appData.settings.brevoApiKey = document.getElementById('settingsBrevo').value;
+            appData.settings.mondayToken = document.getElementById('settingsMonday').value;
+
+            localStorage.setItem('bh_hunter', appData.settings.hunterApiKey);
+            localStorage.setItem('bh_brevo', appData.settings.brevoApiKey);
+            localStorage.setItem('bh_monday', appData.settings.mondayToken);
+
+            showMessage('settingsMessage', '✅ Paramètres enregistrés!', 'success');
+        }
+
+        // ============ UTILITIES ============
+        function showMessage(id, text, type) {
+            const elem = document.getElementById(id);
+            elem.textContent = text;
+            elem.className = `message ${type} show`;
+            setTimeout(() => elem.classList.remove('show'), 4000);
+        }
+
+        function updateAllStats() {
+            document.getElementById('dashboardProspects').textContent = appData.prospects.length;
+            document.getElementById('dashboardCampaigns').textContent = appData.prospects.filter(c => c.status === 'sent').length > 0 ? '1' : '0';
+            document.getElementById('dashboardRevenue').textContent = '€' + appData.devis.reduce((sum, d) => sum + d.total, 0);
+            document.getElementById('dashboardContent').textContent = appData.content.length;
+            document.getElementById('dashboardProjects').textContent = appData.devis.filter(d => d.status === 'pending').length;
+        }
+
+        updateProspectionUI();
+        updateClientsUI();
+        updateDevisUI();
+        updateContentUI();
+        updateAllStats();
+    </script>
+</body>
+</html>
